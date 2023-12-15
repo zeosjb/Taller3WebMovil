@@ -1,11 +1,14 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
+const { loginUser, registerUser, editProfile, updatePassword } = require('../controllers/userController');
+const { protect } = require('../middleware/authMiddleware');
 
-const { registerUser, loginUser, editProfile, updatePassword } = require('../controllers/userController')
+// Rutas sin protección
+router.post('/login', loginUser);
+router.post('/register', registerUser);
 
-router.post('/login', loginUser)
-router.post('/register', registerUser)
-router.put('/editprofile/:id', editProfile)
-router.put('/resetpassword/:id', updatePassword)
+// Rutas protegidas con el middleware protect
+router.put('/editprofile/:id', protect, editProfile);
+router.put('/resetpassword/:id', protect, updatePassword);
 
-module.exports = router
+module.exports = router;

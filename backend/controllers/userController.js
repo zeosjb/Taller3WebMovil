@@ -27,11 +27,11 @@ const isValidRut = (rut) => {
 }
 
 const isValidUCNEmail = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 
-    const allowedDomains = ['ucn.cl', 'alumnos.ucn.cl', 'disc.ucn.cl', 'ce.ucn.cl'];
+    const allowedDomains = ['ucn.cl', 'alumnos.ucn.cl', 'disc.ucn.cl', 'ce.ucn.cl']
 
-    return emailRegex.test(email) && allowedDomains.includes(email.split('@')[1]);
+    return emailRegex.test(email) && allowedDomains.includes(email.split('@')[1])
 };
 
 const registerUser = asyncHandler(async (req, res) => {
