@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import MainScreen from "../views/MainScreen";
 import LoginScreen from '../views/LoginScreen';
 import RegistrationScreen from "../views/RegistrationScreen"
+import HomeScreen from "../views/HomeScreen"
 
 const Stack = createStackNavigator();
 
@@ -21,7 +22,7 @@ export const Navigator = () => {
         </>
       ) : (
         <>
-          {/* Puedes agregar más pantallas protegidas aquí */}
+          <Stack.Screen name="Home" component={HomeScreen} />
         </>
       )}
     </Stack.Navigator>
