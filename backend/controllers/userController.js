@@ -57,7 +57,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (userExists){
         res.status(400)
-        throw new Error('')
+        throw new Error('Credenciales no válidas')
     }
 
     const salt = await bcrypt.genSalt(10)
