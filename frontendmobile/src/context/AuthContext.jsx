@@ -27,33 +27,11 @@ export const AuthProvider = ({ children }) => {
         if (!token) {
             dispatch({ type: "notAuthenticated"})
         }
-
-        try {
-            const response = await userApi.get('/token/validate', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            dispatch({
-                type: 'signIn',
-                payload: {
-                    token: response.data.token,
-                    user: response.data.user,
-                },
-            });
-
-        } catch (error) {
-            if(error.response.status === 401){
-                dispatch({ type: 'notAuthenticated' });
-            }
-        }
     }
 
-    const signUp = async ({ name, email, password }) => {
+    const signUp = async ( email, rut, birthDate, name) => {
         try {
-            const { data } = await userApi.post('/register', { name, email, password });
-            console.log(data.user);
+            const response = await userApi.post('/register', { email, rut, birthDate, name });
             dispatch({
                 type: 'signUp',
                 payload: {
@@ -74,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const signIn = async ({ email, password }) => {
+    const signIn = async ( email, password ) => {
         try {
             const response = await userApi.post('/login', { email, password });
             dispatch({

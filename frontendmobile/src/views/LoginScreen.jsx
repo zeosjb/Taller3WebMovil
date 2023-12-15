@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, SafeAreaView, StatusBar, Image } from "react-native";
+import { View, StyleSheet, SafeAreaView, StatusBar, Image, Keyboard } from "react-native";
 import { Button, TextInput, Text } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
+
 import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = () => {
@@ -14,6 +15,7 @@ const LoginScreen = () => {
   });
 
   const handleLogin = (values) => {
+    Keyboard.dismiss();
     signIn(values.email, values.password);
   };
 
