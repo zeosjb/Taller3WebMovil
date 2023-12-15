@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
-const Admin = require('../models/adminModel')
+const User = require('../models/userModel')
 
 /**
  * La función `protect` es una función de middleware que se utiliza para proteger rutas en una aplicación
@@ -14,7 +14,7 @@ const protect = asyncHandler(async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
-            req.admin = await Admin.findById(decoded.id).select('-password')
+            req.user = await User.findById(decoded.id).select('-password')
             next()
         } catch (error) {
             console.log(error)
