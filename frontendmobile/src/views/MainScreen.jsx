@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 
 import LogoImage from '../assets/MobileHub.png';
 
@@ -8,19 +9,21 @@ const MainScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Image source={LogoImage} style={styles.logo} />
 
-      <TouchableOpacity
-        style={styles.button}
+      <Button
+        mode="contained"
+        style={[styles.button, styles.primaryButton]}
         onPress={() => navigation.navigate('Login')}
       >
-        <Text style={styles.buttonText}>Iniciar Sesión</Text>
-      </TouchableOpacity>
+        Iniciar Sesión
+      </Button>
 
-      <TouchableOpacity
-        style={styles.button}
+      <Button
+        mode="outlined"
+        style={[styles.button, styles.secondaryButton]}
         onPress={() => navigation.navigate('Register')}
       >
-        <Text style={styles.buttonText}>Registrarse</Text>
-      </TouchableOpacity>
+        <Text style={styles.secondaryButtonText}>Registrarse</Text>
+      </Button>
     </View>
   );
 };
@@ -30,25 +33,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
     resizeMode: 'contain',
-    marginBottom: 20,
   },
   button: {
-    backgroundColor: '#3498db',
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-    width: 200,
-    alignItems: 'center',
+    width: 300,
+    marginBottom: 10,
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  primaryButton: {
+    backgroundColor: 'black',
+  },
+  secondaryButton: {
+    borderColor: 'black',
+  },
+  secondaryButtonText: {
+    color: 'black',
   },
 });
 
