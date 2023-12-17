@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import { AuthContext } from "../context/AuthContext";
 
 import MainScreen from "../views/MainScreen";
-import LoginScreen from '../views/LoginScreen';
-import RegistrationScreen from "../views/RegistrationScreen"
-import HomeScreen from "../views/HomeScreen"
+import LoginScreen from "../views/LoginScreen";
+import RegistrationScreen from "../views/RegistrationScreen";
+import HomeScreen from "../views/HomeScreen";
+import EditProfile from "../views/EditProfile";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export const Navigator = () => {
       ) : (
         <>
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
         </>
       )}
     </Stack.Navigator>

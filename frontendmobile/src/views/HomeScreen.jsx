@@ -1,14 +1,25 @@
-import { Text, View } from 'react-native'
-import React, { Component } from 'react'
+import React, { useContext } from "react";
+import { Text, View, Button } from "react-native";
+import Header from "../components/Header";
+import { useNavigation } from "@react-navigation/native";
 
-export class HomeScreen extends Component {
-  render() {
-    return (
-      <View>
-        <Text>HomeScreen</Text>
-      </View>
-    )
-  }
-}
+const HomeScreen = () => {
+  const navigation = useNavigation();
 
-export default HomeScreen
+  const navigateToEditProfile = () => {
+    navigation.navigate("EditProfile");
+  };
+
+  return (
+    <View>
+      <Header />
+      <Text>HomeScreen</Text>
+      <Button
+        title="Ir a Editar Perfil"
+        onPress={navigateToEditProfile}
+      />
+    </View>
+  );
+};
+
+export default HomeScreen;

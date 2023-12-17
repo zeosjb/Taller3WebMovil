@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
             await AsyncStorage.setItem('token', response.data.token);
 
         } catch (error) {
-            // console.log(error.response.data.errors)
+            console.log(error.response.data.errors)
             dispatch({
                 type: 'addError',
                 payload: error.response.data.errors
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
 
         } catch (error) {
-            // console.log(error.response.data)
+            console.log(error.response.data)
             dispatch({
                 type: 'addError',
                 payload: error.response.data.errors
@@ -88,13 +88,44 @@ export const AuthProvider = ({ children }) => {
         dispatch({type: "removeError"})
     }
 
+    const editProfile = async (id, newEmail, newName, newBirthDate) => {
+        try {
+            const token = state.token;
+
+            const response = await userApi.put(
+                `/editprofile/${id}`,
+                { newEmail, newName, newBirthDate },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            dispatch({
+                type: 'editProfile',
+                payload: {
+                    user: response.data.user
+                }
+            });
+
+        } catch (error) {
+            console.log(error.response.data.errors);
+            dispatch({
+                type: 'addError',
+                payload: error.response.data.errors
+            });
+        }
+    }
+
     return (
         <AuthContext.Provider value={{
             ...state,
             signIn,
             signUp,
             logOut,
-            removeError
+            removeError,
+            editProfile
         }}>
             {children}
         </AuthContext.Provider>
