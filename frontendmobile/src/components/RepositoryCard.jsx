@@ -13,7 +13,7 @@ const RepositoryCard = ({ repository }) => {
   };
 
   return (
-    <Card style={{backgroundColor: "white"}}>
+    <Card style={{backgroundColor: "white", borderRadius: 0}}>
       <Card.Content>
         <Title>{repository.name}</Title>
         <Paragraph>Fecha de creación: {repository.created_at}</Paragraph>
@@ -26,7 +26,7 @@ const RepositoryCard = ({ repository }) => {
           expanded={expanded}
           onPress={handlePress}
           titleStyle={{ color: expanded ? 'black' : 'white' }} // Invertir los colores
-          style={{ backgroundColor: expanded ? 'white' : 'black' }} // Invertir los colores
+          style={{ backgroundColor: expanded ? 'white' : 'black', marginTop: 5 }} // Invertir los colores
         >
           {repository.commits.map((commit) => (
             <List.Item

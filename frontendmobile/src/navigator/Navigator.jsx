@@ -6,7 +6,6 @@ import MainScreen from "../views/MainScreen";
 import LoginScreen from "../views/LoginScreen";
 import RegistrationScreen from "../views/RegistrationScreen";
 import HomeScreen from "../views/HomeScreen";
-import EditProfile from "../views/EditProfile";
 
 const Stack = createStackNavigator();
 
@@ -24,7 +23,6 @@ export const Navigator = () => {
       ) : (
         <>
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="EditProfile" component={EditProfile} />
         </>
       )}
     </Stack.Navigator>

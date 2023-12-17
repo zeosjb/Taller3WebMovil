@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer, useState } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { authReducer } from "./authReducer";
@@ -35,12 +35,10 @@ export const AuthProvider = ({ children }) => {
             dispatch({
                 type: 'signUp',
                 payload: {
-                    token: data.token,
-                    user: data.user
+                    token: response.data.token,
+                    user: response.data.user
                 }
             });
-
-            // Almacenar el token del usuario.
             await AsyncStorage.setItem('token', response.data.token);
 
         } catch (error) {
@@ -62,8 +60,6 @@ export const AuthProvider = ({ children }) => {
                     user: response.data.user
                 }
             });
-
-            // Almacenar el token del usuario.
             await AsyncStorage.setItem('token', response.data.token);
 
 
@@ -88,44 +84,13 @@ export const AuthProvider = ({ children }) => {
         dispatch({type: "removeError"})
     }
 
-    const editProfile = async (id, newEmail, newName, newBirthDate) => {
-        try {
-            const token = state.token;
-
-            const response = await userApi.put(
-                `/editprofile/${id}`,
-                { newEmail, newName, newBirthDate },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-
-            dispatch({
-                type: 'editProfile',
-                payload: {
-                    user: response.data.user
-                }
-            });
-
-        } catch (error) {
-            console.log(error.response.data.errors);
-            dispatch({
-                type: 'addError',
-                payload: error.response.data.errors
-            });
-        }
-    }
-
     return (
         <AuthContext.Provider value={{
             ...state,
             signIn,
             signUp,
             logOut,
-            removeError,
-            editProfile
+            removeError
         }}>
             {children}
         </AuthContext.Provider>

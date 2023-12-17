@@ -46,13 +46,6 @@ export const authReducer = (state, action) => {
                 errorMessage: []
             }
 
-        case "editProfile":
-            return {
-                ...state,
-                errorMessage: [],
-                user: action.payload.user
-            }
-
         default:
             return state;
     }
