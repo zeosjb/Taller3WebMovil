@@ -19,13 +19,12 @@ router.get('/repos', async (req, res, next) => {
             commits_count: commitsCount,
           };
         } catch (error) {
-          // Manejar el error de la solicitud de commits
           console.error(`Error fetching commits for repository ${repo.name}:`, error.message);
           return {
             name: repo.name,
             created_at: repo.created_at,
             updated_at: repo.updated_at,
-            commits_count: 0, // Otra opción podría ser establecer esto como undefined o manejarlo de manera diferente
+            commits_count: 0,
           };
         }
       })

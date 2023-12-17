@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
+const moment = require('moment')
 
 const User = require('../models/userModel')
 
@@ -66,20 +67,24 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
         email,
         rut,
-        birthDate,
+        birthDate: moment(birthDate).toISOString(),
         name,
         password: hashedPassword
     })
 
     if (user) {
-        res.status(201).json({
-            _id: user.id,
-            email: user.email,
-            rut: user.rut,
-            birthDate: user.birthDate,
-            name: user.name,
-            token: generateToken(user._id)
-        })
+        const responseData = {
+            user: {
+                _id: user.id,
+                email: user.email,
+                rut: user.rut,
+                birthDate: user.birthDate,
+                name: user.name,
+            },
+            token: generateToken(user._id),
+        };
+
+        res.status(201).json(responseData);
     } else {
         res.status(400)
         throw new Error('Datos no válidos')
@@ -94,14 +99,18 @@ const loginUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email })
 
     if (user && (await bcrypt.compare(password, user.password))) {
-        res.json({
-            _id: user.id,
-            email: user.email,
-            rut: user.rut,
-            birthDate: user.birthDate,
-            name: user.name,
-            token: generateToken(user._id)
-        })
+        const responseData = {
+            user: {
+                _id: user.id,
+                email: user.email,
+                rut: user.rut,
+                birthDate: user.birthDate,
+                name: user.name,
+            },
+            token: generateToken(user._id),
+        };
+
+        res.json(responseData);
     } else {
         res.status(400)
         throw new Error('Credenciales no válidas')
@@ -139,7 +148,7 @@ const editProfile = asyncHandler(async (req, res) => {
 
         user.email = email || user.email
         user.name = name || user.name
-        user.birthDate = birthDate || user.birthDate
+        user.birthDate = birthDate ? moment(birthDate).toISOString() : user.birthDate
 
         const updateUser = await user.save()
 
