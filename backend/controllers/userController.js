@@ -39,17 +39,17 @@ const registerUser = asyncHandler(async (req, res) => {
     const { email, rut, birthDate, name } = req.body
     if (!email || !rut || !birthDate || !name) {
         res.status(400)
-        throw new Error('Complete todos los campos')
+        return res.json({ errors: 'Complete todos los campos' })
     }
 
     if (!isValidRut(rut)) {
         res.status(400)
-        throw new Error('El RUT no es válido')
+        return res.json({ errors: 'El RUT no es válido' })
     }
 
     if (!isValidUCNEmail(email)) {
         res.status(400);
-        throw new Error('Correo electrónico no es válido o no pertenece a los dominios permitidos');
+        return res.json({ errors: 'Correo electrónico no es válido o no pertenece a los dominios permitidos' })
     }
 
     const password = rut.replace(/[.-]/g, '')
@@ -58,7 +58,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (userExists){
         res.status(400)
-        throw new Error('Credenciales no válidas')
+        return res.json({ errors: 'Credenciales no válidas' })
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -87,7 +87,7 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(201).json(responseData);
     } else {
         res.status(400)
-        throw new Error('Datos no válidos')
+        return res.json({ errors: 'Datos no válidos' })
     }
 
     res.json({ message: 'Usuario registrado' })

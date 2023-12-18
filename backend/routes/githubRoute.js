@@ -1,15 +1,24 @@
 const express = require('express')
 const axios = require('axios')
 const router = express.Router()
+require('dotenv').config()
 
 router.get('/repos', async (req, res, next) => {
   try {
-    const githubResponseRepos = await axios.get(`https://api.github.com/users/Dizkm8/repos`);
+    const githubResponseRepos = await axios.get('https://api.github.com/users/Dizkm8/repos', {
+      headers: {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      },
+    })
 
     const repositories = await Promise.all(
       githubResponseRepos.data.map(async (repo) => {
         try {
-          const commitsResponse = await axios.get(`https://api.github.com/repos/Dizkm8/${repo.name}/commits`);
+          const commitsResponse = await axios.get(`https://api.github.com/repos/Dizkm8/${repo.name}/commits`, {
+            headers: {
+              Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+            },
+          })
           const commitsCount = commitsResponse.data.length;
 
           return {
@@ -28,23 +37,24 @@ router.get('/repos', async (req, res, next) => {
           };
         }
       })
-    );
+    )
 
-    // Resto del código...
+    res.json({ repositories })
   } catch (error) {
-    // Manejar el error de la solicitud de repositorios
     console.error('Error fetching repositories:', error.message);
     next(error);
   }
-});
-
-
-module.exports = router;
+})
 
 router.get('/repos/:repoName/commits', async (req, res, next) => {
   try {
     const { repoName } = req.params;
-    const githubResponse = await axios.get(`https://api.github.com/repos/Dizkm8/${repoName}/commits`);
+
+    const githubResponse = await axios.get(`https://api.github.com/repos/Dizkm8/${repoName}/commits`, {
+      headers: {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      },
+    });
 
     const commits = githubResponse.data.map((commit) => ({
       sha: commit.sha,
@@ -55,7 +65,8 @@ router.get('/repos/:repoName/commits', async (req, res, next) => {
 
     res.json({ commits })
   } catch (error) {
-    next(error)
+    console.error(`Error fetching commits for repository ${repoName}:`, error.message);
+    next(error);
   }
 })
 
