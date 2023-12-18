@@ -4,6 +4,9 @@ import { TextInput, Button, HelperText } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
 
+/**
+ * Schema de Yup para las validaciones
+ */
 const EditProfileSchema = yup.object().shape({
   newUsername: yup.string().required("El nombre de usuario es obligatorio"),
   newEmail: yup
@@ -13,12 +16,36 @@ const EditProfileSchema = yup.object().shape({
   newDateOfBirth: yup.date().required("La fecha de nacimiento es obligatoria"),
 });
 
+/**
+ * Muestra un modal para editar el perfil del usuario.
+ *
+ * @param {object} props - Propiedades del componente.
+ * @param {boolean} props.isVisible - Indica si el modal está visible.
+ * @param {function} props.onClose - Función para cerrar el modal.
+ * @param {object} props.user - Información del usuario a ser editado.
+ * @param {function} props.onEditProfile - Función para actualizar el perfil del usuario.
+ * @returns {JSX.Element} Componente EditProfile.
+ */
 const EditProfile = ({ isVisible, onClose, user, onEditProfile }) => {
+  /**
+   * Maneja el evento de guardar cambios en el perfil.
+   *
+   * @param {object} values - Valores del formulario.
+   * @param {string} values.newEmail - Nuevo correo electrónico.
+   * @param {string} values.newUsername - Nuevo nombre de usuario.
+   * @param {string} values.newDateOfBirth - Nueva fecha de nacimiento.
+   */
   const handleSaveChanges = (values) => {
     onEditProfile(values.newEmail, values.newUsername, values.newDateOfBirth);
     onClose();
   };
 
+  /**
+   * Formatea una fecha completa eliminando la parte de la hora.
+   *
+   * @param {string} fullDate - Fecha completa en formato ISO.
+   * @returns {string} Fecha formateada (solo la parte de la fecha).
+   */
   const formatDate = (fullDate) => {
     return fullDate.substring(0, fullDate.indexOf('T'));
   };

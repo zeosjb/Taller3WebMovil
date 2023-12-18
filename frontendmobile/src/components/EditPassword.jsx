@@ -4,6 +4,9 @@ import { TextInput, Button, HelperText } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
 
+/**
+ * Schema de Yup para las validaciones
+ */
 const EditPasswordSchema = yup.object().shape({
   newPassword: yup.string().required("La nueva contraseña es obligatoria"),
   confirmPassword: yup
@@ -12,7 +15,22 @@ const EditPasswordSchema = yup.object().shape({
     .required("Confirma la nueva contraseña"),
 });
 
+/**
+ * Muestra un modal para editar la contraseña.
+ *
+ * @param {object} props - Propiedades del componente.
+ * @param {boolean} props.isVisible - Indica si el modal está visible.
+ * @param {function} props.onClose - Función para cerrar el modal.
+ * @param {function} props.onUpdatePassword - Función para actualizar la contraseña.
+ * @returns {JSX.Element} Componente EditPassword.
+ */
 const EditPassword = ({ isVisible, onClose, onUpdatePassword }) => {
+  /**
+   * Maneja el evento de guardar cambios.
+   *
+   * @param {object} values - Valores del formulario.
+   * @param {string} values.newPassword - Nueva contraseña.
+   */
   const handleSaveChanges = (values) => {
     onUpdatePassword(values.newPassword);
     onClose();

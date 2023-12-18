@@ -12,6 +12,16 @@ import EditPassword from "../components/EditPassword";
 
 import userApi from "../api/userApi";
 
+/**
+ * HomeScreen
+ *
+ * Pantalla principal de la aplicación cuando el usuario está autenticado.
+ * Muestra información del usuario, permite editar su perfil, cambiar la contraseña, cerrar sesión y muestra
+ * una lista de repositorios obtenidos del API de GitHub.
+ *
+ * @component
+ * @returns {JSX.Element} Elemento JSX que representa la interfaz de la pantalla principal.
+ */
 const HomeScreen = () => {
   const [repositoriesObtained, setRepositoriesObtained] = useState([]);
   const { user, token, logOut } = useContext(AuthContext);
@@ -22,22 +32,47 @@ const HomeScreen = () => {
   const [isEditPasswordModalVisible, setEditPasswordModalVisible] =
     useState(false);
 
+    /**
+   * Función para abrir el modal de edición de perfil.
+   * @function
+   */
   const openEditProfileModal = () => {
     setEditProfileModalVisible(true);
   };
 
+  /**
+   * Función para cerrar el modal de edición de perfil.
+   * @function
+   */
   const closeEditProfileModal = () => {
     setEditProfileModalVisible(false);
   };
 
+  /**
+   * Función para abrir el modal de cambio de contraseña.
+   * @function
+   */
   const openEditPasswordModal = () => {
     setEditPasswordModalVisible(true);
   };
 
+  /**
+   * Función para cerrar el modal de cambio de contraseña.
+   * @function
+   */
   const closeEditPasswordModal = () => {
     setEditPasswordModalVisible(false);
   };
 
+  /**
+   * Función para manejar la actualización del perfil del usuario.
+   *
+   * @async
+   * @function
+   * @param {string} newEmail - Nuevo correo electrónico del usuario.
+   * @param {string} newName - Nuevo nombre del usuario.
+   * @param {string} newBirthDate - Nueva fecha de nacimiento del usuario.
+   */
   const handleEditProfile = async (newEmail, newName, newBirthDate) => {
     try {
       const config = {
@@ -76,6 +111,13 @@ const HomeScreen = () => {
     }
   };
 
+  /**
+   * Función para manejar la actualización de la contraseña del usuario.
+   *
+   * @async
+   * @function
+   * @param {string} newPassword - Nueva contraseña del usuario.
+   */
   const handleUpdatePassword = async (newPassword) => {
     try {
       const config = {
@@ -112,11 +154,25 @@ const HomeScreen = () => {
     }
   };
 
+  /**
+   * Función para manejar el cierre de sesión del usuario.
+   * @function
+   */
   const handleSignOut = () => {
     logOut();
   };
 
+  /**
+   * Efecto de montaje para cargar la lista de repositorios al cargar la pantalla.
+   * @effect
+   */
   useEffect(() => {
+    /**
+     * Función asincrónica para realizar la petición al API de GitHub y obtener la lista de repositorios.
+     *
+     * @async
+     * @function
+     */
     const fetchRepositories = async () => {
       try {
         const response = await userApi.get("github/repos");

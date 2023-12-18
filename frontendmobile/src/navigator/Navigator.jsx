@@ -9,11 +9,16 @@ import HomeScreen from "../views/HomeScreen";
 
 const Stack = createStackNavigator();
 
+/**
+ * Componente Navigator: Gestiona la navegación de la aplicación
+ * basándose en el estado de autenticación del usuario.
+ */
 export const Navigator = () => {
   const { status } = useContext(AuthContext);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* Renderizar pantallas de autenticación si el usuario no está autenticado */}
       {status !== "authenticated" ? (
         <>
           <Stack.Screen name="Main" component={MainScreen} />
@@ -22,6 +27,7 @@ export const Navigator = () => {
         </>
       ) : (
         <>
+         {/* Renderizar la pantalla principal si el usuario está autenticado */}
           <Stack.Screen name="Home" component={HomeScreen} />
         </>
       )}

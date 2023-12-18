@@ -4,6 +4,12 @@ import { Button, Text } from 'react-native-paper';
 
 import LogoImage from '../assets/MobileHub.png';
 
+/**
+ * Componente de la pantalla principal que muestra las opciones de inicio de sesión y registro.
+ *
+ * @component
+ * @param {Object} navigation - Objeto de navegación para cambiar entre pantallas.
+ */
 const MainScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>

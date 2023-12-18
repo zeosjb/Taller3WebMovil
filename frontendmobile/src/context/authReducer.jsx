@@ -1,6 +1,15 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
+/**
+ * Reductor para gestionar el estado de autenticación en la aplicación.
+ *
+ * @param {Object} state - Estado actual.
+ * @param {Object} action - Acción a realizar.
+ * @param {string} action.type - Tipo de acción.
+ * @param {Object} action.payload - Datos asociados con la acción.
+ * @returns {Object} Nuevo estado después de realizar la acción.
+ */
 export const authReducer = (state, action) => {
     switch (action.type) {
         case "signIn":

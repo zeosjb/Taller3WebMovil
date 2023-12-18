@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, SafeAreaView, StatusBar, Image, Keyboard } from "react-native";
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  Image,
+  Keyboard,
+} from "react-native";
 import { Button, TextInput, Text } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -9,13 +16,24 @@ import { AuthContext } from "../context/AuthContext";
 const RegistrationScreen = () => {
   const { signUp } = useContext(AuthContext);
 
+  /**
+   * Schema de validación de Yup.
+   */
   const registrationValidationSchema = yup.object().shape({
-    email: yup.string().email("Ingrese un correo válido").required("El correo es obligatorio"),
+    email: yup
+      .string()
+      .email("Ingrese un correo válido")
+      .required("El correo es obligatorio"),
     rut: yup.string().required("El RUT es obligatorio"),
     birthdate: yup.date().required("La fecha de nacimiento es obligatoria"),
     name: yup.string().required("El nombre es obligatorio"),
   });
 
+  /**
+   * Maneja el proceso de registro al llamar a la función de registro con los valores proporcionados.
+   *
+   * @param {Object} values - Valores del formulario de registro, incluyendo email, rut, fecha de nacimiento y nombre.
+   */
   const handleRegistration = (values) => {
     Keyboard.dismiss();
     signUp(values.email, values.rut, values.birthdate, values.name);
@@ -26,7 +44,10 @@ const RegistrationScreen = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <View style={styles.container}>
-          <Image source={require("../assets/MobileHub.png")} style={styles.image} />
+          <Image
+            source={require("../assets/MobileHub.png")}
+            style={styles.image}
+          />
           <Formik
             validationSchema={registrationValidationSchema}
             initialValues={{ email: "", rut: "", birthdate: "", name: "" }}
@@ -50,7 +71,9 @@ const RegistrationScreen = () => {
                   value={values.email}
                   keyboardType="email-address"
                   style={styles.textInput}
-                  theme={{ colors: { primary: 'black', underlineColor: 'transparent' } }}
+                  theme={{
+                    colors: { primary: "black", underlineColor: "transparent" },
+                  }}
                 />
                 {errors.email && touched.email && (
                   <Text style={styles.errorText}>{errors.email}</Text>
@@ -63,7 +86,9 @@ const RegistrationScreen = () => {
                   onBlur={handleBlur("name")}
                   value={values.name}
                   style={styles.textInput}
-                  theme={{ colors: { primary: 'black', underlineColor: 'transparent' } }}
+                  theme={{
+                    colors: { primary: "black", underlineColor: "transparent" },
+                  }}
                 />
                 {errors.name && touched.name && (
                   <Text style={styles.errorText}>{errors.name}</Text>
@@ -76,7 +101,9 @@ const RegistrationScreen = () => {
                   onBlur={handleBlur("rut")}
                   value={values.rut}
                   style={styles.textInput}
-                  theme={{ colors: { primary: 'black', underlineColor: 'transparent' } }}
+                  theme={{
+                    colors: { primary: "black", underlineColor: "transparent" },
+                  }}
                 />
                 {errors.rut && touched.rut && (
                   <Text style={styles.errorText}>{errors.rut}</Text>
@@ -89,7 +116,9 @@ const RegistrationScreen = () => {
                   onBlur={handleBlur("birthdate")}
                   value={values.birthdate}
                   style={styles.textInput}
-                  theme={{ colors: { primary: 'black', underlineColor: 'transparent' } }}
+                  theme={{
+                    colors: { primary: "black", underlineColor: "transparent" },
+                  }}
                 />
                 {errors.birthdate && touched.birthdate && (
                   <Text style={styles.errorText}>{errors.birthdate}</Text>
@@ -115,15 +144,15 @@ const RegistrationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
     padding: 16,
   },
   textInput: {
     width: 300,
     marginBottom: 12,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     paddingHorizontal: 10,
   },
   errorText: {
@@ -135,11 +164,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
     width: 300,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   disabledButton: {
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: "white",
+    borderColor: "black",
     borderWidth: 1,
   },
   image: {

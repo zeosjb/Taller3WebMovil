@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, SafeAreaView, StatusBar, Image, Keyboard } from "react-native";
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  Image,
+  Keyboard,
+} from "react-native";
 import { Button, TextInput, Text } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -9,11 +16,26 @@ import { AuthContext } from "../context/AuthContext";
 const LoginScreen = () => {
   const { signIn } = useContext(AuthContext);
 
+  /**
+   * Schema de validación de Yup
+   */
   const loginValidationSchema = yup.object().shape({
-    email: yup.string().email("Ingrese un correo válido").required("El correo es obligatorio"),
+    email: yup
+      .string()
+      .email("Ingrese un correo válido")
+      .required("El correo es obligatorio"),
     password: yup.string().required("La contraseña es obligatoria"),
   });
 
+  /**
+   * Función para manejar el inicio de sesión del usuario.
+   *
+   * Esta función toma los valores del formulario de inicio de sesión, oculta el teclado
+   * y realiza una llamada a la función de inicio de sesión proporcionada por el contexto de autenticación.
+   *
+   * @param {Object} values - Valores del formulario de inicio de sesión, que incluyen email y password.
+   * @function
+   */
   const handleLogin = (values) => {
     Keyboard.dismiss();
     signIn(values.email, values.password);
@@ -24,7 +46,10 @@ const LoginScreen = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <View style={styles.container}>
-          <Image source={require("../assets/MobileHub.png")} style={styles.image} />
+          <Image
+            source={require("../assets/MobileHub.png")}
+            style={styles.image}
+          />
           <Formik
             validationSchema={loginValidationSchema}
             initialValues={{ email: "", password: "" }}
@@ -48,7 +73,9 @@ const LoginScreen = () => {
                   value={values.email}
                   keyboardType="email-address"
                   style={styles.textInput}
-                  theme={{ colors: { primary: 'black', underlineColor: 'transparent' } }}
+                  theme={{
+                    colors: { primary: "black", underlineColor: "transparent" },
+                  }}
                 />
                 {errors.email && touched.email && (
                   <Text style={styles.errorText}>{errors.email}</Text>
@@ -61,7 +88,9 @@ const LoginScreen = () => {
                   value={values.password}
                   secureTextEntry
                   style={styles.textInput}
-                  theme={{ colors: { primary: 'black', underlineColor: 'transparent' } }}
+                  theme={{
+                    colors: { primary: "black", underlineColor: "transparent" },
+                  }}
                 />
                 {errors.password && touched.password && (
                   <Text style={styles.errorText}>{errors.password}</Text>
@@ -86,15 +115,15 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
     padding: 16,
   },
   textInput: {
     width: 300,
     marginBottom: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     paddingHorizontal: 10,
   },
   errorText: {
@@ -106,11 +135,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
     width: 300,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   disabledButton: {
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: "white",
+    borderColor: "black",
     borderWidth: 1,
   },
   image: {

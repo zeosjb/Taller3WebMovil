@@ -5,10 +5,22 @@ const moment = require('moment')
 
 const User = require('../models/userModel')
 
+/**
+ * Genera un token JWT para un usuario con el ID proporcionado.
+ *
+ * @param {string} id - ID del usuario para el cual se generará el token.
+ * @returns {string} - Token JWT generado.
+ */
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d' })
 }
 
+/**
+ * Valida un RUT chileno.
+ *
+ * @param {string} rut - RUT a validar.
+ * @returns {boolean} - true si el RUT es válido, false en caso contrario.
+ */
 const isValidRut = (rut) => {
     const cleanRut = rut.replace(/[.-]/g, '')
     const dv = cleanRut.slice(-1)
@@ -27,6 +39,12 @@ const isValidRut = (rut) => {
     return dv === String(calculatedDv)
 }
 
+/**
+ * Valida un correo electrónico, asegurando que pertenezca a los dominios permitidos.
+ *
+ * @param {string} email - Correo electrónico a validar.
+ * @returns {boolean} - true si el correo electrónico es válido, false en caso contrario.
+ */
 const isValidUCNEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 
@@ -35,6 +53,15 @@ const isValidUCNEmail = (email) => {
     return emailRegex.test(email) && allowedDomains.includes(email.split('@')[1])
 };
 
+/**
+ * Controlador para el registro de un nuevo usuario.
+ * Valida la información proporcionada, realiza el registro y devuelve el usuario y token en caso de éxito.
+ *
+ * @param {Object} req - Objeto de solicitud.
+ * @param {Object} res - Objeto de respuesta.
+ * @returns {Object} - Datos del usuario y token en caso de éxito.
+ * @throws {Error} - Mensaje de error en caso de fallo en la validación o registro.
+ */
 const registerUser = asyncHandler(async (req, res) => {
     const { email, rut, birthDate, name } = req.body
     if (!email || !rut || !birthDate || !name) {
@@ -93,6 +120,15 @@ const registerUser = asyncHandler(async (req, res) => {
     res.json({ message: 'Usuario registrado' })
 })
 
+/**
+ * Controlador para el inicio de sesión de un usuario.
+ * Valida las credenciales, realiza el inicio de sesión y devuelve el usuario y token en caso de éxito.
+ *
+ * @param {Object} req - Objeto de solicitud.
+ * @param {Object} res - Objeto de respuesta.
+ * @returns {Object} - Datos del usuario y token en caso de éxito.
+ * @throws {Error} - Mensaje de error en caso de credenciales inválidas.
+ */
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     
@@ -119,6 +155,15 @@ const loginUser = asyncHandler(async (req, res) => {
     res.json({ message: `Usuario: ${name} inicio sesión`})
 })
 
+/**
+ * Controlador para la edición del perfil de un usuario.
+ * Valida y actualiza la información del perfil del usuario y devuelve los datos actualizados.
+ *
+ * @param {Object} req - Objeto de solicitud.
+ * @param {Object} res - Objeto de respuesta.
+ * @returns {Object} - Datos del perfil actualizados del usuario.
+ * @throws {Error} - Mensaje de error en caso de fallo en la validación o actualización del perfil.
+ */ 
 const editProfile = asyncHandler(async (req, res) => {
     const { email, name, birthDate } = req.body
 
@@ -164,7 +209,14 @@ const editProfile = asyncHandler(async (req, res) => {
     }
 })
 
-
+/**
+ * Controlador para la actualización de la contraseña de un usuario.
+ * Valida y actualiza la contraseña del usuario.
+ *
+ * @param {Object} req - Objeto de solicitud.
+ * @param {Object} res - Objeto de respuesta.
+ * @throws {Error} - Mensaje de error en caso de fallo en la validación o actualización de la contraseña.
+ */
 const updatePassword = asyncHandler(async (req, res) => {
     const { password } = req.body
     const userId = req.params.id
