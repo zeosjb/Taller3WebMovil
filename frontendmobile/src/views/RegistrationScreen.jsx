@@ -18,7 +18,7 @@ const RegistrationScreen = () => {
 
   const handleRegistration = (values) => {
     Keyboard.dismiss();
-    signUp(values.email, values.name, values.rut, values.birthdate);
+    signUp(values.email, values.rut, values.birthdate, values.name);
   };
 
   return (

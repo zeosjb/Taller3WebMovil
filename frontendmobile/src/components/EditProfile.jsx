@@ -19,6 +19,10 @@ const EditProfile = ({ isVisible, onClose, user, onEditProfile }) => {
     onClose();
   };
 
+  const formatDate = (fullDate) => {
+    return fullDate.substring(0, fullDate.indexOf('T'));
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -43,10 +47,13 @@ const EditProfile = ({ isVisible, onClose, user, onEditProfile }) => {
                 value={values.newUsername}
                 onChangeText={handleChange("newUsername")}
                 style={styles.input}
+                mode="outlined"
+                theme={{ colors: { primary: "black", text: "black" } }}
               />
               <HelperText
                 type="error"
                 visible={errors.newUsername !== undefined}
+                style={{ color: "black" }}
               >
                 {errors.newUsername}
               </HelperText>
@@ -55,30 +62,43 @@ const EditProfile = ({ isVisible, onClose, user, onEditProfile }) => {
                 value={values.newEmail}
                 onChangeText={handleChange("newEmail")}
                 style={styles.input}
+                mode="outlined"
+                theme={{ colors: { primary: "black", text: "black" } }}
               />
-              <HelperText type="error" visible={errors.newEmail !== undefined}>
+              <HelperText
+                type="error"
+                visible={errors.newEmail !== undefined}
+                style={{ color: "black" }}
+              >
                 {errors.newEmail}
               </HelperText>
               <TextInput
                 label="Fecha de nacimiento (YYYY-MM-DD)"
-                value={values.newDateOfBirth}
+                value={formatDate(values.newDateOfBirth)}
                 onChangeText={handleChange("newDateOfBirth")}
                 style={styles.input}
+                mode="outlined"
+                theme={{ colors: { primary: "black", text: "black" } }}
               />
               <HelperText
                 type="error"
                 visible={errors.newDateOfBirth !== undefined}
+                style={{ color: "black" }}
               >
                 {errors.newDateOfBirth}
               </HelperText>
               <Button
                 mode="contained"
                 onPress={handleSubmit}
-                style={styles.button}
+                style={[styles.button, { backgroundColor: "black" }]}
               >
                 Guardar Cambios
               </Button>
-              <Button mode="outlined" onPress={onClose} style={styles.button}>
+              <Button
+                mode="outlined"
+                onPress={onClose}
+                style={[styles.button, { borderColor: "black", color: "black" }]}
+              >
                 Cancelar
               </Button>
             </>
@@ -95,6 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    backgroundColor: "white",
   },
   input: {
     marginBottom: 10,
@@ -102,6 +123,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+    width: "100%",
   },
 });
 

@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
     const signUp = async ( email, rut, birthDate, name) => {
         try {
-            const response = await userApi.post('/register', { email, rut, birthDate, name });
+            const response = await userApi.post('auth/user/register', { email, rut, birthDate, name });
             dispatch({
                 type: 'signUp',
                 payload: {
@@ -40,19 +40,19 @@ export const AuthProvider = ({ children }) => {
                 }
             });
             await AsyncStorage.setItem('token', response.data.token);
-
+        
         } catch (error) {
-            console.log(error.response.data.errors)
+            alert('Error details:', error.response ? error.response.data : error.message);
             dispatch({
                 type: 'addError',
-                payload: error.response.data.errors
-            })
+                payload: error.response ? error.response.data.errors : 'Error desconocido'
+            });
         }
     }
 
     const signIn = async ( email, password ) => {
         try {
-            const response = await userApi.post('/login', { email, password });
+            const response = await userApi.post('auth/user/login', { email, password });
             dispatch({
                 type: 'signIn',
                 payload: {
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
 
 
         } catch (error) {
-            console.log(error.response.data)
+            alert(error.response.data)
             dispatch({
                 type: 'addError',
                 payload: error.response.data.errors

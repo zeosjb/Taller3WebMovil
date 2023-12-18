@@ -42,10 +42,13 @@ const EditPassword = ({ isVisible, onClose, onUpdatePassword }) => {
                 value={values.newPassword}
                 onChangeText={handleChange("newPassword")}
                 style={styles.input}
+                mode="outlined"
+                theme={{ colors: { primary: "black", text: "black" } }}
               />
               <HelperText
                 type="error"
                 visible={errors.newPassword !== undefined}
+                style={{ color: "black" }}
               >
                 {errors.newPassword}
               </HelperText>
@@ -55,21 +58,31 @@ const EditPassword = ({ isVisible, onClose, onUpdatePassword }) => {
                 value={values.confirmPassword}
                 onChangeText={handleChange("confirmPassword")}
                 style={styles.input}
+                mode="outlined"
+                theme={{ colors: { primary: "black", text: "black" } }}
               />
               <HelperText
                 type="error"
                 visible={errors.confirmPassword !== undefined}
+                style={{ color: "black" }}
               >
                 {errors.confirmPassword}
               </HelperText>
               <Button
                 mode="contained"
                 onPress={handleSubmit}
-                style={styles.button}
+                style={[styles.button, { backgroundColor: "black" }]}
               >
                 Guardar Cambios
               </Button>
-              <Button mode="outlined" onPress={onClose} style={styles.button}>
+              <Button
+                mode="outlined"
+                onPress={onClose}
+                style={[
+                  styles.button,
+                  { borderColor: "black", color: "black" },
+                ]}
+              >
                 Cancelar
               </Button>
             </>
@@ -86,6 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    backgroundColor: "white",
   },
   input: {
     marginBottom: 10,
@@ -93,6 +107,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+    width: "100%",
   },
 });
 
